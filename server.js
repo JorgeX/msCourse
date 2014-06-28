@@ -4,8 +4,9 @@ var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var app = express();
 
+var path = 'c:/devaus/mscourse/';//TODO
 
-app.set('views', 'c:/devaus/mscourse/server/views');
+app.set('views', path + 'server/views');
 app.set('view engine', 'jade');
 
 
