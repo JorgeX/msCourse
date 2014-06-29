@@ -1,13 +1,30 @@
-var express = require('express');
+var express = require('express'),
+	stylus = require('stylus');
 
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var app = express();
 
-var path = 'c:/devaus/mscourse/';//TODO
+function compile(str, path){
+	return stylus(str).set('filename', path);
+}
 
-app.set('views', path + 'server/views');
+var currentPath = 'c:/devaus/mscourse/';//TODO
+//var bodyParser = require('body-parser') //TODO some json middlewre needed? this shit aint building...
+//configure
+app.set('views', currentPath + 'server/views');
 app.set('view engine', 'jade');
+var logger = require('express-logger');
+app.use(logger({path: currentPath + 'server/logs'}));
+//app.use(bodyParser.json());
+app.use(stylus.middleware(
+	{
+		src: currentPath + '/public',
+		compile: compile
+	}
+	));
+
+app.use(express.static(__dirname + '/public'));
 
 
 app.get('*', function(req, res){
